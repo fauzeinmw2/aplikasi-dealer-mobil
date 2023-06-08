@@ -734,16 +734,41 @@ func hapusMobil(){
 
 // DONE
 func cariMobil(x string) int {
-	var i, idx int = 0, -1
-	var found bool
-	for i < nAllMobil && !found {
-		if dataAllMobil[i].mobil.nama == x {
-			idx = i
-			found = false
+	// var i, idx int = 0, -1
+	// var found bool
+
+	// Selection Short
+	// for i < nAllMobil && !found {
+	// 	if dataAllMobil[i].mobil.nama == x {
+	// 		idx = i
+	// 		found = false
+	// 	}
+	// 	i++
+	// }
+
+	// Binary
+	urutMobil(1, 1)
+	var med int
+	var kr int = 0
+	var kn int = nAllMobil-1
+	var found bool = false
+	
+	for kr <= kn && !found {
+		med = (kr+kn) / 2
+		if dataAllMobil[med].mobil.nama < x {
+			kr = med + 1
+		} else if dataAllMobil[med].mobil.nama > x {
+			kn = med
+		} else {
+			found = true 
 		}
-		i++
 	}
-	return idx
+
+	if found {
+		return med
+	}else{
+		return -1
+	}
 }
 
 // DONE
