@@ -381,11 +381,15 @@ func tambahPabrik(){
 	fmt.Print("\nSimpan Data Ini? [Y/N] : ")
 	fmt.Scan(&confirm)
 
-	pesan = "Data Pabrik Gagal Ditambahkan...\n"
-	if confirm == "Y" || confirm == "y" {
+	var idxP int = cariPabrik(merek)
+
+	pesan = "Data Pabrik Batal Ditambahkan...\n"
+	if (confirm == "Y" || confirm == "y") && idxP < 0{
 		dataPabrik[nPabrik].merek = merek
 		nPabrik++
 		pesan = "Data Pabrik Baru Berhasi Ditambahkan...\n"
+	}else{
+		pesan = "Gagal.... Data Pabrik Sudah Ada Sebelumnya...\n"
 	}
 }
 
@@ -409,10 +413,14 @@ func editPabrik(){
 		fmt.Print("\nEdit Data Ini? [Y/N] : ")
 		fmt.Scan(&confirm)
 
-		if confirm == "Y" || confirm == "y" {
+		var idxP int = cariPabrik(merek)
+		if (confirm == "Y" || confirm == "y") && idxP < 0{
 			dataPabrik[idx].merek = merek
 			pesan = "Data Pabrik Berhasil Diedit...\n"
+		}else{
+			pesan = "Gagal.... Data Pabrik Sudah Ada Sebelumnya...\n"
 		}
+
 	}else{
 		pesan = "Gagal... Data Pabrik Tidak Ditemukan...\n"
 	}	
@@ -628,7 +636,9 @@ func tambahMobil(){
 		fmt.Print("\nSimpan Data Ini? [Y/N] : ")
 		fmt.Scan(&confirm)
 
-		if confirm == "Y" || confirm == "y" {
+		var idxM int = cariMobil(nama)
+
+		if (confirm == "Y" || confirm == "y") && idxM < 0{
 			var nMobil = dataPabrik[idx].nMobil
 			dataPabrik[idx].daftarMobil[nMobil].nama = nama
 			dataPabrik[idx].daftarMobil[nMobil].tahunKeluar = tahunKeluar
@@ -637,6 +647,8 @@ func tambahMobil(){
 			dataPabrik[idx].daftarMobil[nMobil].jumlah = jumlah
 			dataPabrik[idx].nMobil++
 			pesan = "Data Mobil Baru Berhasi Ditambahkan...\n"
+		}else{
+			pesan = "Gagal.... Data Mobil Sudah Ada Sebelumnya...\n"
 		}
 	}else{
 		pesan = "Gagal... Data Pabrik Tidak Ditemukan...\n"
@@ -666,7 +678,7 @@ func editMobil(){
 
 	fmt.Println("         Edit Data Mobil         ")
 	fmt.Println("=================================")
-	fmt.Print("\nMasukkan Nama Mobil : ")
+	fmt.Print("\nNama Mobil yang Akan Diedit: ")
 	fmt.Scan(&nama)
 
 	idxM = cariMobil(nama)
@@ -677,7 +689,7 @@ func editMobil(){
 		idxP = cariPabrik(merek)
 		idxM = getIndexMobil(idxP, nama)
 
-		fmt.Print("\nNama Mobil : ")
+		fmt.Print("\nNama Mobil Baru : ")
 		fmt.Scan(&nama)
 		fmt.Print("Tahun Keluar : ")
 		fmt.Scan(&tahunKeluar)
@@ -690,13 +702,16 @@ func editMobil(){
 		fmt.Print("\nSimpan Data Ini? [Y/N] : ")
 		fmt.Scan(&confirm)
 
-		if confirm == "Y" || confirm == "y" {
+		var idxC int = cariMobil(nama)
+		if (confirm == "Y" || confirm == "y") && idxC < 0{
 			dataPabrik[idxP].daftarMobil[idxM].nama = nama
 			dataPabrik[idxP].daftarMobil[idxM].tahunKeluar = tahunKeluar
 			dataPabrik[idxP].daftarMobil[idxM].harga = harga
 			dataPabrik[idxP].daftarMobil[idxM].penjualan = penjualan
 			dataPabrik[idxP].daftarMobil[idxM].jumlah = jumlah
-			pesan = "Data Mobil Baru Berhasi Diubah...\n"
+			pesan = "Data Mobil Berhasi Diubah...\n"
+		}else{
+			pesan = "Gagal.... Data Mobil Sudah Ada Sebelumnya...\n"
 		}
 	}else{
 		pesan = "Gagal... Data Mobil Tidak Ditemukan...\n"
@@ -752,7 +767,7 @@ func cariMobil(x string) int {
 	var kr int = 0
 	var kn int = nAllMobil-1
 	var found bool = false
-	
+
 	for kr <= kn && !found {
 		med = (kr+kn) / 2
 		if dataAllMobil[med].mobil.nama < x {
